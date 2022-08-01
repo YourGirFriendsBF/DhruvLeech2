@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 from base64 import standard_b64encode
 from lxml import etree
 from lxml import etree
+from time import sleep
 
 from bot import LOGGER, UPTOBOX_TOKEN, CRYPT, APPDRIVE_EMAIL, APPDRIVE_PASS
 from bot.helper.telegram_helper.bot_commands import BotCommands
@@ -136,7 +137,7 @@ def uptobox(url: str) -> str:
                 dl_url = result2['data']['dlLink']
             elif result['message'].lower() == 'you need to wait before requesting a new download link':
                 cooldown = divmod(result['data']['waiting'], 60)
-                raise DirectDownloadLinkException(f"ERROR: Uptobox limited please wait {cooldown[0]} mins {cooldown[1]} secs.")
+                raise DirectDownloadLinkException(f"ERROR: Uptobox is being limited please wait {cooldown[0]} min {cooldown[1]} sec.")
             else:
                 LOGGER.info(f"UPTOBOX_ERROR: {result}")
                 raise DirectDownloadLinkException(f"ERROR: {result['message']}")
